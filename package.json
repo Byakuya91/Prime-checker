@@ -1,0 +1,19 @@
+{
+  "name": "prime-checker",
+  "version": "1.0.0",
+  "description": "An app that will check if a number is prime or not. It will be expanded to do other things with prime numbers.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Byakuya91/Prime-checker.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Byakuya91/Prime-checker/issues"
+  },
+  "homepage": "https://github.com/Byakuya91/Prime-checker#readme"
+}
