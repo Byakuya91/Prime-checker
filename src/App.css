@@ -93,3 +93,15 @@ p {
   margin-top: 10px;
   font-weight: bold;
 }
+
+/* Prime checker colors */
+
+.result-prime {
+  color: green;
+  font-weight: bold;
+}
+
+.result-not-prime {
+  color: red;
+  font-weight: bold;
+}

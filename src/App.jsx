@@ -12,7 +12,8 @@ function App() {
   // 5. Display the result in the U(DONE)
 
   // TODO: extra features
-  // 1. Create a function to show all the prime numbers up to N(ONGOING)
+  // 1. Create a function to show all the prime numbers up to N(DONE)
+  // 2. Styling: Color Code Prime or Not(ONGOING)
 
   // ? pieces of state
   const [number, setNumber] = useState("");
@@ -20,6 +21,8 @@ function App() {
   const [result, setResult] = useState("");
 
   const [primeList, setPrimeList] = useState([]);
+
+  const [isPrime, setIsPrime] = useState(null); // true, false, or null for checking if a number is prime or not.
 
   // ?Functions
 
@@ -119,11 +122,17 @@ function App() {
     //  ? check if  the input is valid
     if (isNaN(num)) {
       setResult("Please, enter a valid number!");
+      setIsPrime(null);
       return;
     }
     // ? Run our checking is prime or not function
-    const isPrime = checkPrime(num);
-    setResult(isPrime ? "It is a Prime Number!" : "It is not a Prime Number!");
+    const primeCheck = checkPrime(num);
+    //  ? set isPrime true or false
+    setIsPrime(primeCheck);
+
+    setResult(
+      primeCheck ? "It is a Prime Number!" : "It is not a Prime Number!"
+    );
   };
 
   return (
@@ -151,10 +160,31 @@ function App() {
             </button>
           </div>
           <div className="result-container">
-            <p>{result}</p>
+            <p
+              className={
+                isPrime === null
+                  ? ""
+                  : isPrime
+                  ? "result-prime"
+                  : "result-not-prime"
+              }
+            >
+              {result}
+            </p>
             {primeList.length > 0 && (
               <p>
-                Prime Numbers up to {number} are: {primeList.join(", ")}
+                Prime Numbers up to {number} are:{" "}
+                {primeList.map((num, index) => (
+                  <span
+                    key={index}
+                    className={
+                      checkPrime(num) ? "result-prime" : "result-not-prime"
+                    }
+                  >
+                    {num}
+                    {index < primeList.length - 1 && ", "}
+                  </span>
+                ))}
               </p>
             )}
           </div>
