@@ -4,61 +4,126 @@ import viteLogo from "/vite.svg";
 import "./App.css";
 
 function App() {
-  // TODO:
+  // TODO: core functions
   // 1Create clear for CSS and basic styles(DONE)
   // 2.Create HTML skeleton for prime checker(DONE)
   // 3. Create state variables to hold the user input(ONGOING)
-  // 4. Create a function to check if the number is prime.
+  // 4. Create a function to check if the number is prime(DONE)
   // 5. Display the result in the U(DONE)
 
-  // ? State variables for input and numbers
-  const [number, setNumber] = useState("");
+  // TODO: extra features
+  // 1. Create a function to show all the prime numbers up to N(ONGOING)
 
-  // console logs
-  console.log("the current number is:", number);
+  // ? pieces of state
+  const [number, setNumber] = useState("");
 
   const [result, setResult] = useState("");
 
-  // ?Two functions: clear the input and check if it is prime
+  const [primeList, setPrimeList] = useState([]);
 
-  const checkPrime = () => {
-    // ! defensive measure against trailing inputs
-    let trimmedInput = number.trim();
-    let num = parseInt(trimmedInput);
+  // ?Functions
 
-    // convert the string to a number.
-    console.log("the num after conversion is:", num);
+  console.log("The primeslist is:", primeList);
 
-    // edge cases
-    // ? if it is not a number
-    if (isNaN(num)) {
-      setResult("Please, enter a number!");
-      return;
-    }
-    // if it is not a prime number
+  // ?Core functions
+
+  // ! creating a new check Prime
+  // const checkPrime = () => {
+  //   // ! defensive measure against trailing inputs
+  //   let trimmedInput = number.trim();
+  //   let num = parseInt(trimmedInput);
+
+  //   // convert the string to a number.
+  //   // console.log("the num after conversion is:", num);
+
+  //   // edge cases
+  //   // ? if it is not a number
+  //   if (isNaN(num)) {
+  //     setResult("Please, enter a number!");
+  //     return;
+  //   }
+  //   // if it is not a prime number
+  //   if (num < 2) {
+  //     setResult("it is not a Prime Number!");
+  //     return false;
+  //   }
+
+  //   // create a flag to check for IsPrime is true with some kind of loop.
+
+  //   let isPrime = true;
+
+  //   // for loop to check if the number is prime
+  //   for (let i = 2; i < +Math.sqrt(num); i++) {
+  //     if (num % i === 0) {
+  //       // console.log("the num during the conditional check is:", num);
+  //       isPrime = false;
+  //       break;
+  //     }
+  //   }
+  //   // update the result
+  //   setResult(isPrime ? "It is a Prime Number!" : "It is not a Prime Number!");
+  //   return isPrime;
+  // };
+
+  // ?Checking if a number is prime or not, taking in a number.
+
+  const checkPrime = (num) => {
+    // ?Checking if the number isn't prime or not
     if (num < 2) {
-      setResult("it is not a Prime Number!");
-      return;
+      return false;
     }
-
-    // create a flag to check for IsPrime is true with some kind of loop.
-
-    let isPrime = true;
-
-    // for loop to check if the number is prime
-    for (let i = 2; i < +Math.sqrt(num); i++) {
+    // ?Checking if the number is prime
+    for (let i = 2; i <= Math.sqrt(num); i++) {
       if (num % i === 0) {
-        console.log("the num during the conditional check is:", num);
-        isPrime = false;
-        break;
+        return false;
       }
     }
-    // update the result
-    setResult(isPrime ? "It is a Prime Number!" : "It is not a Prime Number!");
+    return true;
   };
+
   const clearInput = () => {
     setNumber("");
     setResult("");
+    setPrimeList("");
+  };
+
+  // ? Extra features functions
+  // create a function to show all the prime numbers up to N
+
+  const listPrimesUpToN = () => {
+    //  create an array to hold the prime numbers, STEP ONE.
+    let num = parseInt(number);
+    let primes = [];
+    console.log("the primes list is:", primes);
+    console.log("the number is:", num);
+
+    // loop through the numbers from 2 to N
+    for (let i = 2; i <= num; i++) {
+      if (checkPrime(i)) {
+        console.log("the primes list before being added:", primes);
+        primes.push(i); // add the prime number to the array.
+      }
+    }
+
+    // set the state with the list of primes
+    setPrimeList(primes);
+    console.log("the primes list after being added:", primes);
+  };
+
+  // ? HANDLER FUNCTIONS
+  const handleCheckPrime = () => {
+    //  ? modify and convert the input
+    const trimmedInput = number.trim();
+    const num = parseInt(trimmedInput);
+
+    //  ? check if  the input is valid
+    if (isNaN(num)) {
+      setResult("Please, enter a valid number!");
+      return;
+    }
+    // ? Run our checking is prime or not function
+    const isPrime = checkPrime(num);
+    setResult(isPrime ? "It is a Prime Number!" : "It is not a Prime Number!");
   };
 
   return (
@@ -75,14 +140,24 @@ function App() {
             />
           </div>
           <div className="button-group">
-            <button className="check-btn" onClick={checkPrime}>
+            <button className="check-btn" onClick={handleCheckPrime}>
               Check
             </button>
             <button className="clear-btn" onClick={clearInput}>
               Clear
             </button>
+            <button className="list-btn" onClick={listPrimesUpToN}>
+              Show Primes Up to N
+            </button>
           </div>
-          <p>{result}</p>
+          <div className="result-container">
+            <p>{result}</p>
+            {primeList.length > 0 && (
+              <p>
+                Prime Numbers up to {number} are: {primeList.join(", ")}
+              </p>
+            )}
+          </div>
         </div>
       </div>
     </>
