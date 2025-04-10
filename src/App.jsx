@@ -16,14 +16,16 @@ function App() {
   // 2. Styling: Color Code Prime or Not(ONGOING)
 
   // ? pieces of state
+  //Numbers for input
   const [number, setNumber] = useState("");
-
+  // sets the result for the numbers
   const [result, setResult] = useState("");
-
+  // controls the list of primes up to for the list
   const [primeList, setPrimeList] = useState([]);
-
+  // checks if a number is prime or not.
   const [isPrime, setIsPrime] = useState(null); // true, false, or null for checking if a number is prime or not.
-
+  //  checks if there is an error when entering
+  const [hasError, setHasError] = useState(false);
   // ?Functions
 
   console.log("The primeslist is:", primeList);
@@ -88,6 +90,7 @@ function App() {
     setNumber("");
     setResult("");
     setPrimeList("");
+    setHasError(false);
   };
 
   // ? Extra features functions
@@ -99,6 +102,13 @@ function App() {
     let primes = [];
     console.log("the primes list is:", primes);
     console.log("the number is:", num);
+
+    if (isNaN(num) || num < 2) {
+      setResult("Please enter a valid number greater than 1.");
+      setPrimeList([]); // Clear the prime list to avoid null errors
+      setHasError(true);
+      return;
+    }
 
     // loop through the numbers from 2 to N
     for (let i = 2; i <= num; i++) {
@@ -122,6 +132,7 @@ function App() {
     //  ? check if  the input is valid
     if (isNaN(num)) {
       setResult("Please, enter a valid number!");
+      setHasError(true);
       setIsPrime(null);
       return;
     }
@@ -145,7 +156,9 @@ function App() {
               type="text"
               value={number}
               onChange={(e) => setNumber(e.target.value)}
+              className={`input-field ${hasError ? "input-error shake" : ""}`}
               placeholder="Please, enter a number."
+              onAnimationEnd={() => setHasError(false)} // resets the shake
             />
           </div>
           <div className="button-group">

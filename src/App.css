@@ -97,11 +97,44 @@ p {
 /* Prime checker colors */
 
 .result-prime {
-  color: green;
+  color: purple;
   font-weight: bold;
 }
 
 .result-not-prime {
   color: red;
   font-weight: bold;
+}
+
+/* Error styles */
+
+@keyframes shake {
+  0% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-5px);
+  }
+  40% {
+    transform: translateX(5px);
+  }
+  60% {
+    transform: translateX(-5px);
+  }
+  80% {
+    transform: translateX(5px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.input-error {
+  border: 2px solid red;
+  outline: none;
+  background-color: #ffe5e5;
+}
+
+.shake {
+  animation: shake 0.3s ease-in-out;
 }
