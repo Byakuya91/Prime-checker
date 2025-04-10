@@ -1,19 +1,18 @@
 import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
 import "./App.css";
 
 function App() {
   // TODO: core functions
   // 1Create clear for CSS and basic styles(DONE)
   // 2.Create HTML skeleton for prime checker(DONE)
-  // 3. Create state variables to hold the user input(ONGOING)
+  // 3. Create state variables to hold the user input(DONE)
   // 4. Create a function to check if the number is prime(DONE)
   // 5. Display the result in the U(DONE)
 
   // TODO: extra features
   // 1. Create a function to show all the prime numbers up to N(DONE)
-  // 2. Styling: Color Code Prime or Not(ONGOING)
+  // 2. Styling: Color Code Prime or Not(DONE)
+  // 3. Logic gate guarding, must check if a number is Prime before checking if it is up to N(DONE)
 
   // ? pieces of state
   //Numbers for input
@@ -26,6 +25,9 @@ function App() {
   const [isPrime, setIsPrime] = useState(null); // true, false, or null for checking if a number is prime or not.
   //  checks if there is an error when entering
   const [hasError, setHasError] = useState(false);
+  // flag to check if the number is prime before checking list of primes
+  const [hasCheckedPrime, setHasCheckedPrime] = useState(false);
+
   // ?Functions
 
   console.log("The primeslist is:", primeList);
@@ -103,11 +105,19 @@ function App() {
     console.log("the primes list is:", primes);
     console.log("the number is:", num);
 
+    // checking if the number is valid or not
     if (isNaN(num) || num < 2) {
       setResult("Please enter a valid number greater than 1.");
       setPrimeList([]); // Clear the prime list to avoid null errors
       setHasError(true);
       return;
+    }
+
+    //  checking of the number is prime or not:
+    if (!hasCheckedPrime) {
+      setHasError(true);
+      setResult("Please check if the number is prime first.");
+      return; // prevent the rest of the function from running
     }
 
     // loop through the numbers from 2 to N
@@ -140,6 +150,7 @@ function App() {
     const primeCheck = checkPrime(num);
     //  ? set isPrime true or false
     setIsPrime(primeCheck);
+    setHasCheckedPrime(true);
 
     setResult(
       primeCheck ? "It is a Prime Number!" : "It is not a Prime Number!"
